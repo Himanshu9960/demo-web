@@ -16,7 +16,7 @@ spec:
       - name: ecr-secret  # Tells local K8s to use your AWS credentials
       containers:
       - name: web
-        image: 543953893133.dkr.ecr.us-east-1.amazonaws.com/my-devops-app:latest
+        image: 543953893133.dkr.ecr.ap-south-1.amazonaws.com/my-devops-app:latest
         ports:
         - containerPort: 80
 ---
