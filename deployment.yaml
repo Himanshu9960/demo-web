@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: devops-web-deployment
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: devops-web
@@ -12,9 +12,11 @@ spec:
       labels:
         app: devops-web
     spec:
+      imagePullSecrets:
+      - name: ecr-secret  # Tells local K8s to use your AWS credentials
       containers:
       - name: web
-        image: IMAGE_PLACEHOLDER
+        image: YOUR_12_DIGIT_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/my-devops-app:latest
         ports:
         - containerPort: 80
 ---
@@ -23,10 +25,11 @@ kind: Service
 metadata:
   name: devops-web-service
 spec:
-  type: LoadBalancer
+  type: NodePort  # Best for local clusters so you can access it via localhost
   selector:
     app: devops-web
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
+      nodePort: 30080
